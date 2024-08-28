@@ -1,3 +1,4 @@
+"use client";
 import { Figtree } from "next/font/google";
 import localFont from "next/font/local";
 
@@ -49,25 +50,71 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   let items = [
-    { title: "صفحه اصلی", href: "/" },
+    { title: " اصلی", href: "/", isOpen: false },
     {
       title: "گزارشات",
       href: "/report",
+      isOpen: false,
       children: [
         { title: "منو یک", href: "/test" },
         { title: "منو دو", href: "/test1" },
       ],
     },
-    { title: "صدور", href: "/test5", isOpen: false },
     {
-      title: "تنظیمات",
-      href: "/settings",
+      title: "گزارشات",
+      href: "/report",
       isOpen: false,
       children: [
-        { title: "منو یک", href: "/test2" },
-        { title: "منو دو", href: "/test3" },
+        { title: "منو یک", href: "/test" },
+        { title: "منو دو", href: "/test1" },
       ],
     },
+    {
+      title: "گزارشات",
+      href: "/report",
+      isOpen: false,
+      children: [
+        { title: "منو یک", href: "/test" },
+        { title: "منو دو", href: "/test1" },
+      ],
+    },
+    {
+      title: "گزارشات",
+      href: "/report",
+      isOpen: false,
+      children: [
+        { title: "منو یک", href: "/test" },
+        { title: "منو دو", href: "/test1" },
+      ],
+    },
+    {
+      title: "گزارشات",
+      href: "/report",
+      isOpen: false,
+      children: [
+        { title: "منو یک", href: "/test" },
+        { title: "منو دو", href: "/test1" },
+      ],
+    },
+    {
+      title: "گزارشات",
+      href: "/report",
+      isOpen: false,
+      children: [
+        { title: "منو یک", href: "/test" },
+        { title: "منو دو", href: "/test1" },
+      ],
+    },
+    {
+      title: "گزارشات",
+      href: "/report",
+      isOpen: false,
+      children: [
+        { title: "منو یک", href: "/test" },
+        { title: "منو دو", href: "/test1" },
+      ],
+    },
+
     { title: "راهنما", href: "/test6", isOpen: false },
   ];
   return (
@@ -77,10 +124,15 @@ export default function RootLayout({
           <Header />
           <Navbar
             navbarItems={items}
-            bgColor=""
-            bgHover=""
-            textColor=""
-            className=""
+            // containerClass=""
+            // containerItemsClass=""
+            // itemClass=""
+            // activeItemClass=""
+            // iconsClass=""
+            logoAddress="/images/default.jpg"
+            // logoWidth={}
+            // logoHieght={}
+
             // selectedItem={() => console.log()}
           />
           <div className="w-full"> {children}</div>

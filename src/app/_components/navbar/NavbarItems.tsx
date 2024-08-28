@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { FC, useState } from "react";
 import { usePathname } from "next/navigation";
+import { ArrowUp } from "../svg-icons/ArrowUp";
 import {
   BaseCollapser,
   BaseCollapserHeader,
@@ -11,31 +12,40 @@ import {
 
 type Props = {
   navbarItems: NavbarItem[];
-  bgColor?: string;
-  textColor?: string;
-  bgHover?: string;
-  className?: string;
+  containerItemsClass?: string;
+  itemClass?: string;
+  iconsClass?: string;
+  activeItemClass?: string;
+
   selectedItem?: () => void;
 };
 
 export const NavbarItems: FC<Props> = ({
   navbarItems,
-  bgColor = "#fff",
-  bgHover = "#fff",
-  textColor = "",
+  containerItemsClass,
+  itemClass,
+  activeItemClass,
+  iconsClass,
 }) => {
   const patthname = usePathname();
   const [items, setItems] = useState<NavbarItem[]>(navbarItems);
 
   const clickOnHeader = (i: number): void => {
     items[i].isOpen = !items[i].isOpen;
+
     setItems([...items]);
+  };
+
+  const selectedItem = (item: Item) => {
+    console.log(item);
   };
 
   return (
     <>
-      <div className="w-full w-[250px]">
-        <div className="m-auto text-gray-500 py-3 my-2 sm:my-20 w-11/12 ">
+      <div className={`w-full`}>
+        <div
+          className={`m-auto py-3 my-2 sm:my-10 w-11/12 ${containerItemsClass}`}
+        >
           {items.map((item: NavbarItem, index: number) => {
             const isActive = patthname === item.href;
             if (item.children) {
@@ -46,33 +56,37 @@ export const NavbarItems: FC<Props> = ({
                     isOpen={item.isOpen}
                     clickOnHeader={(e) => clickOnHeader(e)}
                   >
-                    <div className="flex items-center justify-between rounded-lg px-4 text-sm my-4 cursor-pointer">
+                    <div
+                      className={`flex items-center justify-between rounded-lg px-4 text-sm my-2 cursor-pointer py-3 ${itemClass}`}
+                    >
                       <span className=""> {item.title}</span>
 
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        className={`transition-all duration-500 rotate-180 ${
-                          item.isOpen ? "rotate-0" : ""
-                        }`}
-                      >
-                        <path d="M3 19h18a1.002 1.002 0 0 0 .823-1.569l-9-13c-.373-.539-1.271-.539-1.645 0l-9 13A.999.999 0 0 0 3 19z"></path>
-                      </svg>
+                      <ArrowUp
+                        style={
+                          item.isOpen
+                            ? {
+                                transform: `rotateX(180deg)`,
+                                transition: `transform 1000ms`,
+                              }
+                            : {
+                                transform: `rotateX(0)`,
+                                transition: `transform 1000ms`,
+                              }
+                        }
+                        className={`${iconsClass} ${item.isOpen ? "" : ""} `}
+                      />
                     </div>
                   </BaseCollapserHeader>
-                  <BaseCollapserContent id={index}>
-                    <div className="px-4 text-sm rounded-lg last:mb-2">
+                  <BaseCollapserContent id={index} >
+                    <div className="px-4 text-sm rounded-lg last:mb-2" onClick={() => selectedItem(item)}>
                       {item.children &&
                         item.children.map((i: NavbarItem, index: number) => {
                           const x = patthname === i.href;
                           return (
                             <Link
                               key={`BaseCollapserContent-${index}`}
-                              className={`transition-colors rounded-lg px-4 w-full cursor-pointer text-sm block cursor-pointer mb-2 py-3 ${
-                                x &&
-                                "text-blue-400 bg-[#4096ff] text-sm text-white"
+                              className={`transition-colors rounded-lg px-4 w-full cursor-pointer text-sm block mb-2 py-3 ${itemClass} ${
+                                x && `text-sm ${activeItemClass}`
                               }`}
                               href={i.href}
                             >
@@ -89,10 +103,10 @@ export const NavbarItems: FC<Props> = ({
                 <div className="w-full" key={`navigation-${item.href}`}>
                   <Link
                     className={`transition-colors rounded-lg px-4 w-full cursor-pointer text-sm block py-3 ${
-                      isActive &&
-                      "text-blue-400 bg-[#4096ff] text-sm text-white"
-                    }`}
+                      isActive && `${activeItemClass} text-sm `
+                    } ${itemClass} `}
                     href={item.href}
+                    onClick={() => selectedItem(item)}
                   >
                     {item.title}
                   </Link>
