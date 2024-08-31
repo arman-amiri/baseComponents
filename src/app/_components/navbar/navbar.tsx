@@ -48,6 +48,15 @@ export const Navbar: FC<Props> = ({
     return () => document.removeEventListener("click", handelClick);
   }, [handelClick]);
 
+  // const onClick = (e: any) => {
+  //   if (e.key !== "exit") {
+  //     startTransition(() => {
+  //       router.push(e.key);
+  //     });
+  //   } else signOut();
+  //   // console.log("click ", e);
+  // };
+
   return (
     <>
       {!isNavClose && (
@@ -57,10 +66,10 @@ export const Navbar: FC<Props> = ({
         ></div>
       )}
       <div
-        className={`bg-white fixed top-0 z-40 h-screen  border-l-2 overflow-y-auto ${
+        className={`bg-white fixed top-0 z-40 h-screen sm:static  border-l-2 overflow-y-auto w-[292px] transition-all ${
           isNavClose
-            ? "w-[0] border-l-0 transition-[width]  duration-400"
-            : "w-[292px] transition-[width]"
+            ? "-right-80 border-l-0 transition-all  duration-500 ease-in-out"
+            : "right-0 transition-all duration-500 ease-in-out"
         } ${containerClass}`}
       >
         {/* <div
@@ -71,7 +80,7 @@ export const Navbar: FC<Props> = ({
           x
         </div> */}
         <div></div>
-        <div className="flex justify-center items-center mt-1  w-36 h-28 2xl:w-44 2xl:44 ">
+        <div className="flex w-full justify-center items-center  ">
           {/* <Image
             src={logoAddress}
             width={logoWidth}
@@ -81,7 +90,7 @@ export const Navbar: FC<Props> = ({
           {logo}
         </div>
         <NavbarItems
-          navbarItems={navbarItems}
+         navbarItems={navbarItems}
           containerItemsClass={containerItemsClass}
           itemClass={itemClass}
           iconsClass={iconsClass}
