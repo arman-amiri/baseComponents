@@ -71,7 +71,7 @@ export const Navbar: FC<Props> = ({
           x
         </div> */}
         <div></div>
-        <div className="flex justify-center items-center mt-5 h-24">
+        <div className="flex justify-center items-center mt-1  w-36 h-28 2xl:w-44 2xl:44 ">
           {/* <Image
             src={logoAddress}
             width={logoWidth}
