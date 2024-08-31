@@ -2,7 +2,6 @@
 
 import { FC, useCallback, useEffect, useState } from "react";
 
-import Image from "next/image";
 import { NavbarItems } from "./navbarItems";
 
 type Props = {
@@ -12,9 +11,7 @@ type Props = {
   itemClass?: string;
   iconsClass?: string;
   activeItemClass?: string;
-  logoAddress?: string;
-  logoWidth?: number;
-  logoHieght?: number;
+  logo?: React.ReactNode;
 
   selectedItem?: (item: Item) => void;
 };
@@ -26,9 +23,7 @@ export const Navbar: FC<Props> = ({
   itemClass = "hover:bg-[#309fff] hover:text-white text-gray-500 hover:fill-white fill-gray-500",
   activeItemClass = "bg-[#301fff] text-white",
   iconsClass = "",
-  logoAddress = "/images/default.jpg",
-  logoWidth = 150,
-  logoHieght = 150,
+  logo,
   selectedItem,
 }) => {
   const [isNavClose, setIsNavClose] = useState<boolean>(false);
@@ -77,12 +72,13 @@ export const Navbar: FC<Props> = ({
         </div> */}
         <div></div>
         <div className="flex justify-center items-center mt-5">
-          <Image
+          {/* <Image
             src={logoAddress}
             width={logoWidth}
             height={logoHieght}
             alt="logo"
-          />
+          /> */}
+          {logo}
         </div>
         <NavbarItems
           navbarItems={navbarItems}
