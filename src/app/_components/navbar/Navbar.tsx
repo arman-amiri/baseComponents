@@ -32,21 +32,19 @@ export const Navbar: FC<Props> = ({
 }) => {
   const [isNavClose, setIsNavClose] = useState<boolean>(false);
 
-  const openCloseNav = (): void => {
-    setIsNavClose(!isNavClose);
-  };
-
   const handelClick = useCallback((e: MouseEvent): void => {
     const el = (e.target as HTMLInputElement).id;
-    console.log(el);
+    const svgEl = ((e.target as HTMLInputElement).parentNode as SVGAElement).id;
+console.log(svgEl , 'svgEl')
     if (el == "navbar-item" && window.innerWidth < 640) setIsNavClose(true);
-    if (el == "darkLayoutNavbar") setIsNavClose(true);
-    if (el == "openCloseNavbarFromHeader") setIsNavClose((old) => !old);
+    if (el == "darkLayoutNavbar") setIsNavClose(!isNavClose);
     if (
-      ((e.target as HTMLInputElement).parentNode as SVGAElement).id ==
-      "openCloseNavbarFromHeader"
-    )
-      setIsNavClose((old) => !old);
+      el == "openCloseNavbarFromHeader" ||
+      svgEl == "openCloseNavbarFromHeader"
+    ) {
+      setIsNavClose((old) => (old = !old));
+      console.log(7);
+    }
   }, []);
 
   useEffect(() => {

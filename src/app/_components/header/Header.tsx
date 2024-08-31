@@ -1,18 +1,9 @@
 "use client";
 
-import React, { FC, useCallback, useEffect, useState } from "react";
+import React, { FC } from "react";
 import { FiMenu } from "react-icons/fi";
 
 export const Header: FC = () => {
-  // const handelClick = useCallback((e: MouseEvent) => {
-  //   const el = (e.target as HTMLInputElement).id;
-  //   if (el == "closeNavbarIcon") setShow(true);
-  //   if (el == "openNavbarIcon") setShow(false);
-  // }, []);
-  // useEffect(() => {
-  //   document.addEventListener("click", handelClick);
-  //   return () => document.removeEventListener("click", handelClick);
-  // }, [handelClick]);
 
   return (
     <>
@@ -25,7 +16,7 @@ export const Header: FC = () => {
         >
           <FiMenu
             id="openCloseNavbarFromHeader"
-            className="font-black text-3xl"
+            className="font-black text-4xl"
           />
         </div>
       </div>
