@@ -3,6 +3,7 @@
 import { FC, useCallback, useEffect, useState } from "react";
 import { NavbarItems } from "./NavbarItems";
 import Image from "next/image";
+import { CloseX } from "../svg-icons/Close";
 
 type Props = {
   navbarItems: NavbarItem[];
@@ -11,11 +12,11 @@ type Props = {
   itemClass?: string;
   iconsClass?: string;
   activeItemClass?: string;
-  logoAddress: string;
+  logoAddress?: string;
   logoWidth?: number;
   logoHieght?: number;
 
-  selectedItem?: () => void;
+  selectedItem?: (item: Item) => void;
 };
 
 export const Navbar: FC<Props> = ({
@@ -25,9 +26,10 @@ export const Navbar: FC<Props> = ({
   itemClass = "hover:bg-[#309fff] hover:text-white text-gray-500 hover:fill-white fill-gray-500",
   activeItemClass = "bg-[#301fff] text-white",
   iconsClass = "",
-  logoAddress,
+  logoAddress = "/images/default.jpg",
   logoWidth = 150,
   logoHieght = 150,
+  selectedItem,
 }) => {
   const [isNavClose, setIsNavClose] = useState<boolean>(false);
 
@@ -59,6 +61,7 @@ export const Navbar: FC<Props> = ({
           onClick={openCloseNav}
         >
           x
+          {/* <CloseX /> */}
         </div>
         <div className="flex justify-center items-center mt-5">
           <Image
@@ -74,7 +77,7 @@ export const Navbar: FC<Props> = ({
           itemClass={itemClass}
           iconsClass={iconsClass}
           activeItemClass={activeItemClass}
-          selectedItem={(item : Item) => console.log("gggggg", item)}
+          selectedItem={selectedItem}
         />
       </div>
     </>

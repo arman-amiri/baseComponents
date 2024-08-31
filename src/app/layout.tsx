@@ -82,16 +82,14 @@ export default function RootLayout({
           <Header />
           <Navbar
             navbarItems={items}
-            // containerClass=""
+            // containerClass="absolute"
             // containerItemsClass=""
             // itemClass=""
             // activeItemClass=""
             // iconsClass=""
-            logoAddress="/images/default.jpg"
             // logoWidth={}
             // logoHieght={}
-
-            // selectedItem={() => console.log()}
+            selectedItem={(item : Item) => console.log(item)}
           />
           <div className="w-full"> {children}</div>
         </div>

@@ -17,7 +17,7 @@ type Props = {
   iconsClass?: string;
   activeItemClass?: string;
 
-  selectedItem?: (item : Item) => void;
+  selectedItem?: (item: Item) => void;
 };
 
 export const NavbarItems: FC<Props> = (props) => {
@@ -27,6 +27,7 @@ export const NavbarItems: FC<Props> = (props) => {
     itemClass,
     activeItemClass,
     iconsClass,
+    selectedItem,
   } = props;
   const patthname = usePathname();
   const [items, setItems] = useState<NavbarItem[]>(navbarItems);
@@ -38,8 +39,7 @@ export const NavbarItems: FC<Props> = (props) => {
   };
 
   const handelSelectedItem = (item: Item) => {
-    console.log(item);
-    props.selectedItem(item);
+    if (selectedItem) selectedItem(item);
   };
 
   return (
