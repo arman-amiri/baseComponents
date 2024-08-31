@@ -59,8 +59,8 @@ export const Navbar: FC<Props> = ({
       <div
         className={`bg-white fixed top-0 z-40 h-screen  border-l-2 overflow-y-auto ${
           isNavClose
-            ? "w-[0] border-l-0 transition-[width] duration-400"
-            : "w-[292px]"
+            ? "w-[0] border-l-0 transition-[width]  duration-400"
+            : "w-[292px] transition-[width]"
         } ${containerClass}`}
       >
         {/* <div
@@ -71,7 +71,7 @@ export const Navbar: FC<Props> = ({
           x
         </div> */}
         <div></div>
-        <div className="flex justify-center items-center mt-5">
+        <div className="flex justify-center items-center mt-5 h-24">
           {/* <Image
             src={logoAddress}
             width={logoWidth}
