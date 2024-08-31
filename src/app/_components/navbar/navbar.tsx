@@ -57,6 +57,18 @@ export const Navbar: FC<Props> = ({
   //   // console.log("click ", e);
   // };
 
+
+  // const signOut = async () => {
+  //   try {
+  //     ("use server");
+  //     await logOut();
+  //     Cookies.remove("accessToken");
+  //     Cookies.remove("refreshToken");
+  //     router.push(`${logout_uri}api/auth/logout`);
+  //   } catch (error) {
+  //     router.push(`${logout_uri}api/auth/logout`);
+  //   }
+  // };
   return (
     <>
       {!isNavClose && (
