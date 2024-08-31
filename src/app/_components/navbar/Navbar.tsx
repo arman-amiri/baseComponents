@@ -3,7 +3,6 @@
 import { FC, useCallback, useEffect, useState } from "react";
 import { NavbarItems } from "./NavbarItems";
 import Image from "next/image";
-import { CloseX } from "../svg-icons/Close";
 
 type Props = {
   navbarItems: NavbarItem[];
@@ -39,8 +38,17 @@ export const Navbar: FC<Props> = ({
 
   const handelClick = useCallback((e: MouseEvent): void => {
     const el = (e.target as HTMLInputElement).id;
-    if (el == "openNavbarIcon") setIsNavClose(false);
+    console.log(el);
+    if (el == "navbar-item" && window.innerWidth < 640) setIsNavClose(true);
+    if (el == "darkLayoutNavbar") setIsNavClose(true);
+    if (el == "openCloseNavbarFromHeader") setIsNavClose((old) => !old);
+    if (
+      ((e.target as HTMLInputElement).parentNode as SVGAElement).id ==
+      "openCloseNavbarFromHeader"
+    )
+      setIsNavClose((old) => !old);
   }, []);
+
   useEffect(() => {
     document.addEventListener("click", handelClick);
     return () => document.removeEventListener("click", handelClick);
@@ -48,21 +56,27 @@ export const Navbar: FC<Props> = ({
 
   return (
     <>
+      {!isNavClose && (
+        <div
+          className="fixed w-100 h-screen bg-rose-200 min-w-full z-10 sm:hidden"
+          id="darkLayoutNavbar"
+        ></div>
+      )}
       <div
-        className={`bg-white  h-screen  border-l-2 overflow-y-auto ${
+        className={`bg-white relative z-40 h-screen  border-l-2 overflow-y-auto ${
           isNavClose
             ? "w-[0] border-l-0 transition-[width] duration-400"
             : "w-[292px]"
         } ${containerClass}`}
       >
-        <div
+        {/* <div
           className="text-rose-600 text-2xl text-left pl-6 pt-4 sm:hidden cursor-pointer"
           id="closeNavbarIcon"
           onClick={openCloseNav}
         >
           x
-          {/* <CloseX /> */}
-        </div>
+        </div> */}
+        <div></div>
         <div className="flex justify-center items-center mt-5">
           <Image
             src={logoAddress}

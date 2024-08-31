@@ -1,6 +1,6 @@
 type Item = {
-  title: string;
-  href: string;
+  label: string;
+  key: string;
   isOpen?: boolean;
   iconComponent?: React.ReactNode;
 };

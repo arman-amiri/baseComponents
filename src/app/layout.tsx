@@ -51,29 +51,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const items: NavbarItem[] = [
-    { title: " اصلی", href: "/", isOpen: false },
+    { label: " اصلی", key: "/" },
     {
-      title: "گزارشات",
-      href: "/report",
-      isOpen: false,
+      label: "گزارشات",
+      key: "/report",
       children: [
-        { title: "منو یک", href: "/test" },
-        { title: "منو دو", href: "/test1" },
+        { label: "منو یک", key: "/test" },
+        { label: "منو دو", key: "/test1" },
       ],
       iconComponent: <ArrowUp />,
     },
 
     {
-      title: "گزارشات",
-      href: "/report",
-      isOpen: false,
+      label: "گزارشات",
+      key: "/report",
       children: [
-        { title: "منو یک", href: "/test" },
-        { title: "منو دو", href: "/test1" },
+        { label: "منو یک", key: "/test" },
+        { label: "منو دو", key: "/test1" },
       ],
     },
 
-    { title: "راهنما", href: "/test6", isOpen: false },
+    { label: "راهنما", key: "/test6" },
   ];
   return (
     <html dir="rtl" className={`${figtree.variable} ${iransans.variable}`}>
@@ -91,7 +89,7 @@ export default function RootLayout({
             // logoHieght={}
             selectedItem={(item : Item) => console.log(item)}
           />
-          <div className="w-full"> {children}</div>
+          <div className="w-full">{children}</div>
         </div>
       </body>
     </html>

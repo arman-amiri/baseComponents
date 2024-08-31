@@ -49,7 +49,7 @@ export const NavbarItems: FC<Props> = (props) => {
           className={`m-auto py-3 my-2 sm:my-5 w-11/12 ${containerItemsClass}`}
         >
           {items.map((item: NavbarItem, index: number) => {
-            const isActive = patthname === item.href;
+            const isActive = patthname === item.key;
             if (item.children) {
               return (
                 <BaseCollapser key={index}>
@@ -60,10 +60,11 @@ export const NavbarItems: FC<Props> = (props) => {
                   >
                     <div
                       className={`flex items-center justify-between rounded-lg px-4 text-sm my-2 cursor-pointer py-3 ${itemClass}`}
+                      
                     >
                       <span className="flex items-center">
                         {item.iconComponent}
-                        {item.title}
+                        {item.label}
                       </span>
 
                       <ArrowUp
@@ -86,17 +87,18 @@ export const NavbarItems: FC<Props> = (props) => {
                     <div className="px-4 text-sm rounded-lg last:mb-2">
                       {item.children &&
                         item.children.map((i: NavbarItem, index: number) => {
-                          const x = patthname === i.href;
+                          const x = patthname === i.key;
                           return (
                             <Link
                               key={`BaseCollapserContent-${index}`}
                               className={`transition-colors rounded-lg px-4 w-full cursor-pointer text-sm block mb-2 py-3 ${itemClass} ${
                                 x && `text-sm ${activeItemClass}`
                               }`}
-                              href={i.href}
+                              href={i.key}
                               onClick={() => handelSelectedItem(i)}
+                              id="navbar-item"
                             >
-                              {i.title}
+                              {i.label}
                             </Link>
                           );
                         })}
@@ -106,15 +108,16 @@ export const NavbarItems: FC<Props> = (props) => {
               );
             } else {
               return (
-                <div className="w-full" key={`navigation-${item.href}`}>
+                <div className="w-full" key={`navigation-${item.key}`}>
                   <Link
                     className={`transition-colors rounded-lg px-4 w-full cursor-pointer text-sm block py-3 ${
                       isActive && `${activeItemClass} text-sm `
                     } ${itemClass} `}
-                    href={item.href}
+                    href={item.key}
                     onClick={() => handelSelectedItem(item)}
+                    id="navbar-item"
                   >
-                    {item.title}
+                    {item.label}
                   </Link>
                 </div>
               );
