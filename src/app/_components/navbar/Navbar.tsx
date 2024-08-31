@@ -1,8 +1,9 @@
 "use client";
 
 import { FC, useCallback, useEffect, useState } from "react";
-import { NavbarItems } from "./NavbarItems";
+
 import Image from "next/image";
+import { NavbarItems } from "./navbarItems";
 
 type Props = {
   navbarItems: NavbarItem[];
@@ -35,7 +36,7 @@ export const Navbar: FC<Props> = ({
   const handelClick = useCallback((e: MouseEvent): void => {
     const el = (e.target as HTMLInputElement).id;
     const svgEl = ((e.target as HTMLInputElement).parentNode as SVGAElement).id;
-console.log(svgEl , 'svgEl')
+    console.log(svgEl, "svgEl");
     if (el == "navbar-item" && window.innerWidth < 640) setIsNavClose(true);
     if (el == "darkLayoutNavbar") setIsNavClose(!isNavClose);
     if (
@@ -56,12 +57,12 @@ console.log(svgEl , 'svgEl')
     <>
       {!isNavClose && (
         <div
-          className="fixed w-100 h-screen bg-rose-200 min-w-full z-10 sm:hidden"
+          className="fixed w-100 h-screen  min-w-full z-10 sm:hidden"
           id="darkLayoutNavbar"
         ></div>
       )}
       <div
-        className={`bg-white relative z-40 h-screen  border-l-2 overflow-y-auto ${
+        className={`bg-white fixed top-0 z-40 h-screen  border-l-2 overflow-y-auto ${
           isNavClose
             ? "w-[0] border-l-0 transition-[width] duration-400"
             : "w-[292px]"

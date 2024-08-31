@@ -3,12 +3,12 @@
 import Link from "next/link";
 import { FC, useState } from "react";
 import { usePathname } from "next/navigation";
-import { ArrowUp } from "../svg-icons/ArrowUp";
+import { ArrowUp } from "../svg-icons/arrowUp";
 import {
   BaseCollapser,
   BaseCollapserHeader,
   BaseCollapserContent,
-} from "../collapser/Collapser";
+} from "../collapser/collapser";
 
 type Props = {
   navbarItems: NavbarItem[];

@@ -4,11 +4,10 @@ import React, { FC } from "react";
 import { FiMenu } from "react-icons/fi";
 
 export const Header: FC = () => {
-
   return (
     <>
       <div
-        className={`fixed z-50 w-full bg-black text-white  h-16 px-4 cursor-pointer flex items-center sm:hidden`}
+        className={`absolute z-30 w-full bg-black text-white  h-16 px-4 cursor-pointer flex items-center sm:hidden`}
       >
         <div
           className={`inline-block sm:hidden p-2`}

@@ -1,1 +1,1 @@
-export * from './Collapser'
+export * from './collapser'

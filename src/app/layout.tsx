@@ -5,7 +5,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Header } from "./_components/header";
 import { Navbar } from "./_components/navbar";
-import { ArrowUp } from "./_components/svg-icons/ArrowUp";
+import { ArrowUp } from "./_components/svg-icons/arrowUp";
 
 const figtree = Figtree({
   display: "swap",
@@ -75,9 +75,10 @@ export default function RootLayout({
   ];
   return (
     <html dir="rtl" className={`${figtree.variable} ${iransans.variable}`}>
-      <body>
+      <body> 
+        <Header />
         <div className="flex">
-          <Header />
+         
           <Navbar
             navbarItems={items}
             // containerClass="absolute"
