@@ -1,10 +1,10 @@
 import { FC } from "react";
 
 type Props = {
-  style: {};
+  style?: {};
   width?: string;
   height?: string;
-  className: string;
+  className?: string;
 };
 
 export const ArrowUp: FC<Props> = ({

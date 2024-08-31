@@ -17,16 +17,17 @@ type Props = {
   iconsClass?: string;
   activeItemClass?: string;
 
-  selectedItem?: () => void;
+  selectedItem?: (item : Item) => void;
 };
 
-export const NavbarItems: FC<Props> = ({
-  navbarItems,
-  containerItemsClass,
-  itemClass,
-  activeItemClass,
-  iconsClass,
-}) => {
+export const NavbarItems: FC<Props> = (props) => {
+  const {
+    navbarItems,
+    containerItemsClass,
+    itemClass,
+    activeItemClass,
+    iconsClass,
+  } = props;
   const patthname = usePathname();
   const [items, setItems] = useState<NavbarItem[]>(navbarItems);
 
@@ -36,15 +37,16 @@ export const NavbarItems: FC<Props> = ({
     setItems([...items]);
   };
 
-  const selectedItem = (item: Item) => {
+  const handelSelectedItem = (item: Item) => {
     console.log(item);
+    props.selectedItem(item);
   };
 
   return (
     <>
       <div className={`w-full`}>
         <div
-          className={`m-auto py-3 my-2 sm:my-10 w-11/12 ${containerItemsClass}`}
+          className={`m-auto py-3 my-2 sm:my-5 w-11/12 ${containerItemsClass}`}
         >
           {items.map((item: NavbarItem, index: number) => {
             const isActive = patthname === item.href;
@@ -59,7 +61,10 @@ export const NavbarItems: FC<Props> = ({
                     <div
                       className={`flex items-center justify-between rounded-lg px-4 text-sm my-2 cursor-pointer py-3 ${itemClass}`}
                     >
-                      <span className=""> {item.title}</span>
+                      <span className="flex items-center">
+                        {item.iconComponent}
+                        {item.title}
+                      </span>
 
                       <ArrowUp
                         style={
@@ -77,8 +82,8 @@ export const NavbarItems: FC<Props> = ({
                       />
                     </div>
                   </BaseCollapserHeader>
-                  <BaseCollapserContent id={index} >
-                    <div className="px-4 text-sm rounded-lg last:mb-2" onClick={() => selectedItem(item)}>
+                  <BaseCollapserContent id={index}>
+                    <div className="px-4 text-sm rounded-lg last:mb-2">
                       {item.children &&
                         item.children.map((i: NavbarItem, index: number) => {
                           const x = patthname === i.href;
@@ -89,6 +94,7 @@ export const NavbarItems: FC<Props> = ({
                                 x && `text-sm ${activeItemClass}`
                               }`}
                               href={i.href}
+                              onClick={() => handelSelectedItem(i)}
                             >
                               {i.title}
                             </Link>
@@ -106,7 +112,7 @@ export const NavbarItems: FC<Props> = ({
                       isActive && `${activeItemClass} text-sm `
                     } ${itemClass} `}
                     href={item.href}
-                    onClick={() => selectedItem(item)}
+                    onClick={() => handelSelectedItem(item)}
                   >
                     {item.title}
                   </Link>

@@ -29,7 +29,6 @@ export const Navbar: FC<Props> = ({
   logoWidth = 150,
   logoHieght = 150,
 }) => {
-
   const [isNavClose, setIsNavClose] = useState<boolean>(false);
 
   const openCloseNav = (): void => {
@@ -61,7 +60,7 @@ export const Navbar: FC<Props> = ({
         >
           x
         </div>
-        <div className="flex justify-center items-center mt-10">
+        <div className="flex justify-center items-center mt-5">
           <Image
             src={logoAddress}
             width={logoWidth}
@@ -75,7 +74,7 @@ export const Navbar: FC<Props> = ({
           itemClass={itemClass}
           iconsClass={iconsClass}
           activeItemClass={activeItemClass}
-          selectedItem={() => console.log("gggggg")}
+          selectedItem={(item : Item) => console.log("gggggg", item)}
         />
       </div>
     </>

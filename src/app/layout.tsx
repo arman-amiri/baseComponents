@@ -5,6 +5,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Header } from "./_components/header";
 import { Navbar } from "./_components/navbar";
+import { ArrowUp } from "./_components/svg-icons/ArrowUp";
 
 const figtree = Figtree({
   display: "swap",
@@ -49,7 +50,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  let items = [
+  const items: NavbarItem[] = [
     { title: " اصلی", href: "/", isOpen: false },
     {
       title: "گزارشات",
@@ -59,52 +60,9 @@ export default function RootLayout({
         { title: "منو یک", href: "/test" },
         { title: "منو دو", href: "/test1" },
       ],
+      iconComponent: <ArrowUp />,
     },
-    {
-      title: "گزارشات",
-      href: "/report",
-      isOpen: false,
-      children: [
-        { title: "منو یک", href: "/test" },
-        { title: "منو دو", href: "/test1" },
-      ],
-    },
-    {
-      title: "گزارشات",
-      href: "/report",
-      isOpen: false,
-      children: [
-        { title: "منو یک", href: "/test" },
-        { title: "منو دو", href: "/test1" },
-      ],
-    },
-    {
-      title: "گزارشات",
-      href: "/report",
-      isOpen: false,
-      children: [
-        { title: "منو یک", href: "/test" },
-        { title: "منو دو", href: "/test1" },
-      ],
-    },
-    {
-      title: "گزارشات",
-      href: "/report",
-      isOpen: false,
-      children: [
-        { title: "منو یک", href: "/test" },
-        { title: "منو دو", href: "/test1" },
-      ],
-    },
-    {
-      title: "گزارشات",
-      href: "/report",
-      isOpen: false,
-      children: [
-        { title: "منو یک", href: "/test" },
-        { title: "منو دو", href: "/test1" },
-      ],
-    },
+
     {
       title: "گزارشات",
       href: "/report",

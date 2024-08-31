@@ -1,7 +1,8 @@
 type Item = {
   title: string;
   href: string;
-  isOpen?: boolean
+  isOpen?: boolean;
+  iconComponent?: React.ReactNode;
 };
 
 type NavbarItem = Item & { children?: Item[] };
