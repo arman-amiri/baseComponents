@@ -8,7 +8,7 @@ import {
   BaseCollapserHeader,
   BaseCollapserContent,
 } from "../collapser/collapser";
-import { ArrowUp } from "@/public/images/ArrowUp";
+import { ArrowUp } from "../svg-icons/arrowUp";
 
 type Props = {
   navbarItems: NavbarItem[];
@@ -60,7 +60,6 @@ export const NavbarItems: FC<Props> = (props) => {
                   >
                     <div
                       className={`flex items-center justify-between rounded-lg px-4 text-sm my-2 cursor-pointer py-3 ${itemClass}`}
-                      
                     >
                       <span className="flex items-center">
                         {item.iconComponent}
@@ -123,6 +122,12 @@ export const NavbarItems: FC<Props> = (props) => {
               );
             }
           })}
+          <button
+            className="transition-colors text-right rounded-lg px-4 w-full cursor-pointer text-sm block py-3 mt-4"
+            id="navbar-item"
+          >
+            خروج
+          </button>
         </div>
       </div>
     </>
