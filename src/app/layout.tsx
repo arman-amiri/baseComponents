@@ -74,22 +74,9 @@ export default function RootLayout({
     { label: "راهنما", key: "/test6" },
   ];
   return (
-    <html dir="rtl" className={`${figtree.variable} ${iransans.variable}`}>
+    <html dir="rtl" id="html" className={`${figtree.variable} ${iransans.variable}`}>
       <body> 
-        <Header />
         <div className="flex">
-         
-          <Navbar
-            navbarItems={items}
-            // containerClass="absolute"
-            // containerItemsClass=""
-            // itemClass=""
-            // activeItemClass=""
-            // iconsClass=""
-            // logoWidth={}
-            // logoHieght={}
-            selectedItem={(item : Item) => console.log(item)}
-          />
           <div className="w-full">{children}</div>
         </div>
       </body>
