@@ -1,9 +1,18 @@
 "use client";
 
-import { ChangeEvent, FC, useEffect, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  FC,
+  memo,
+  useDeferredValue,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 import { debounce } from "lodash";
 import { IoMdClose } from "react-icons/io";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 interface Props {
   items: {
@@ -13,15 +22,15 @@ interface Props {
     codeVahed: number;
     phone: string;
   }[];
-
+  loading: boolean;
   selected: { value: string; name: string };
   onChange: (inputValue: string) => void;
   onSelect: (selected: string) => void;
 }
 
-const InputSearch: FC<Props> = (props) => {
+export const InputSearch: FC<Props> = (props) => {
   const [showSearchBox, setShowSearchBox] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(props.loading);
 
   const [localStorageHistory, setLocalStorageHistory] = useState<any>([]);
   const [resultSearch, setResultSearch] = useState<any>(props.items);
@@ -31,10 +40,10 @@ const InputSearch: FC<Props> = (props) => {
     }, 400)
   ).current;
 
-
   const [form, setForm] = useState<any>({
     name: props.selected.name,
   });
+  const deferredForm = useDeferredValue(form);
 
   const handelRemoveInputValue = () => {
     setForm({ name: "" });
@@ -61,17 +70,22 @@ const InputSearch: FC<Props> = (props) => {
       ...form,
       [name]: value,
     });
+    // setForm({
+    //   ...form,
+    //   [name]: value,
+    // });
   };
 
   useEffect(() => {
     if (!form.name) {
     }
     setResultSearch(props.items);
+    setLoading(props.loading);
     document.addEventListener("click", handleMouseClick);
     return () => {
       document.removeEventListener("click", handleMouseClick);
     };
-  }, [form, props.items]);
+  }, [form, props]);
 
   const handelFirstContentSearch = () => {
     const searchHistory: any = localStorage.getItem("searchHistory");
@@ -80,6 +94,7 @@ const InputSearch: FC<Props> = (props) => {
   };
 
   const handelSaveSearchInLocalStorage = (inputValue: any) => {
+    setShowSearchBox(false);
     props.onSelect(inputValue);
     setForm({
       name: inputValue.name,
@@ -148,37 +163,47 @@ const InputSearch: FC<Props> = (props) => {
           value={form.name}
           onChange={(e: ChangeEvent<HTMLInputElement>) => handleOnChange(e)}
         />
-
         {showSearchBox && (
           <div
             id="searchBox"
             className="desktop:w-full bg-white absolute left-0 right-0 top-12 desktop:top-10 z-50 border max-h-80 overflow-y-scroll"
           >
-            {resultSearch && !!resultSearch?.length && !loading && (
-              <div className="flex flex-col p-4">
-                {resultSearch.map((item: any, index: number) => {
-                  return (
-                    <div
-                      key={index}
-                      onClick={() => handelSaveSearchInLocalStorage(item)}
-                    >
-                      <div className="flex justify-between items-center py-4 px-2 border-b last:border-0 cursor-pointer hover:bg-slate-200 hover:rounded">
-                        <div>
+            <ResultSearch
+              text={deferredForm.name}
+              resultSearch={resultSearch}
+              loading={loading}
+            />
+            {/* {deferredForm.name && (
+              <div className="px-4 pt-3">
+                <span className="text-xs text-stone-400">جستجو برای</span>
+
+                <Suspense fallback={<h2>Loading...</h2>}>
+                  <span> {`"${deferredForm.name}"`} </span>
+                </Suspense>
+              </div>
+            )} */}
+            {/* 
+            <div className="">
+              {resultSearch && !!resultSearch?.length && !loading && (
+                <div className="flex flex-col p-4">
+                  {resultSearch.map((item: any, index: number) => {
+                    return (
+                      <div
+                        key={index}
+                        onClick={() => handelSaveSearchInLocalStorage(item)}
+                      >
+                        <div className="flex justify-between items-center py-4 px-2 border-b last:border-0 cursor-pointer hover:bg-slate-200 hover:rounded">
                           <div className="text-stone-600">{item.name}</div>
-                          <div className="flex gap-1 text-stone-400 text-sm">
-                            <span>{item.name}</span>
-                          </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-
+                    );
+                  })}
+                </div>
+              )}
+            </div> */}
             {!resultSearch?.length &&
               !!localStorageHistory?.length &&
-              !loading && (
+               (
                 <div>
                   {localStorageHistory.map((item: any, index: number) => {
                     return (
@@ -199,8 +224,8 @@ const InputSearch: FC<Props> = (props) => {
                               removeOldSearchFromLocalStorage(e, item, index)
                             }
                           >
-                            <span className="icon-close" id="removeOldSearch">
-                              <IoMdClose />
+                            <span id="removeOldSearch">
+                              <IoMdClose className="cursor-pointer hover:text-red-600" />
                             </span>
                           </div>
                         </div>
@@ -211,7 +236,7 @@ const InputSearch: FC<Props> = (props) => {
               )}
             {!resultSearch?.length &&
               !localStorageHistory?.length &&
-              !loading && (
+               (
                 <div className="py-6">
                   <div className="text-stone-500 px-4">بیشترین جستجو‌ها</div>
                   <div className="flex flex-row flex-wrap px-4 mt-4 text-stone-400">
@@ -222,13 +247,15 @@ const InputSearch: FC<Props> = (props) => {
                 </div>
               )}
 
-            {loading && (
+            {/* {loading && (
               <div>
                 <div className="flex flex-col items-center justify-center w-full py-6">
-                  <div className="icon-spinner1 animate-spin text-2xl	text-[#FF5C39]"></div>
+                  <div className="icon-spinner1 animate-spin text-2xl	text-[#FF5C39]">
+                    <AiOutlineLoading3Quarters />
+                  </div>
                 </div>
               </div>
-            )}
+            )} */}
           </div>
         )}
       </div>
@@ -243,4 +270,28 @@ const InputSearch: FC<Props> = (props) => {
   );
 };
 
-export default InputSearch;
+function ResultSearch({ text, resultSearch, loading }: any) {
+  const [test, setTest] = useState("");
+  console.log(test, "test");
+  
+  return (
+    <>
+        {resultSearch && !!resultSearch?.length && (
+          <div className="flex flex-col p-4">
+            {resultSearch.map((item: any, index: number) => {
+              return (
+                <div
+                  key={index}
+                  // onClick={() => handelSaveSearchInLocalStorage(item)}
+                >
+                  <div className="flex justify-between items-center py-4 px-2 border-b last:border-0 cursor-pointer hover:bg-slate-200 hover:rounded">
+                    <div className="text-stone-600">{item.name}</div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+    </>
+  );
+}

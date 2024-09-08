@@ -74,8 +74,12 @@ export default function RootLayout({
     { label: "راهنما", key: "/test6" },
   ];
   return (
-    <html dir="rtl" id="html" className={`${figtree.variable} ${iransans.variable}`}>
-      <body> 
+    <html
+      dir="rtl"
+      id="html"
+      className={`${figtree.variable} ${iransans.variable}`}
+    >
+      <body>
         <div className="flex">
           <div className="w-full">{children}</div>
         </div>
