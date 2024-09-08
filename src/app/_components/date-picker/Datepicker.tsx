@@ -1,0 +1,66 @@
+import { FC, useEffect, useMemo, useState } from "react";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
+import MultiDatePicker from "react-multi-date-picker";
+const jalaali = require("jalaali-js");
+import "react-multi-date-picker/styles/layouts/mobile.css";
+
+interface DatePicker { 
+  oldDate: string | undefined;
+  placeholder: string;
+  onSelectDate: (date: any) => void;
+}
+
+const DatePicker: FC<DatePicker> = (props) => {
+  const { placeholder , oldDate } = props;
+  const [value, setValue] = useState<any>();
+
+  const oldDateMemo = useMemo(() => {
+    return oldDate;
+  }, [oldDate]);
+
+  const onChange = (time: any) => {
+    const { gy, gm, gd } = jalaali.toGregorian(
+      time.year,
+      time.month.number,
+      time.day
+    );
+    props.onSelectDate(`${gy}/${gm}/${gd}`);
+  };
+
+  useEffect(() => {
+    if (oldDateMemo) {
+      const { jy, jm, jd } = jalaali.toJalaali(new Date(oldDateMemo)); 
+      setValue(`${jy}/${jm}/${jd}`);
+    }
+  }, [oldDateMemo]);
+
+  return (
+    <>
+      <MultiDatePicker
+        // hideOnScroll
+        value={value}
+        calendar={persian}
+        locale={persian_fa}
+        highlightToday={true}
+        showOtherDays={false}
+        placeholder={placeholder}
+        // className="rmdp-mobile"
+        buttons={false}
+        inputClass="py-2 px-4 border border-gray  cursor-pointer rounded"
+        onChange={onChange}
+        mobileButtons={[
+          {
+            label: "رفرش",
+            // type: "button",
+            className: "rmdp-button rmdp-action-button",
+            onClick: () => setValue({}),
+          },
+        ]}
+      />
+
+    </>
+  );
+};
+
+export default DatePicker;
