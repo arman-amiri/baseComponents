@@ -51,9 +51,9 @@ export default function Home() {
             debounceTime={500}
             onChange={handelOnChange}
             showItemCount={10}
-            itemClass=""
-            inputClass=""
-            containerClass=""
+            // itemClass=""
+            // inputClass=""
+            // containerClass=""
             onSelect={(selected) => console.log(selected, "selected")}
           />
         </div>

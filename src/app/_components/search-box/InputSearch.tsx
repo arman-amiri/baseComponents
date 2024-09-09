@@ -31,10 +31,11 @@ export const InputSearch: FC<Props> = (props) => {
     showItemCount = 5,
     items,
     debounceTime = 350,
-    itemClass,
-    inputClass,
-    containerClass,
+    itemClass = "py-1 px-2 hover:bg-slate-200 cursor-pointer text-sm text-stone-600",
+    inputClass="w-full py-2 px-1 outline-none rounded border border-cyan-700 cursor-pointer",
+    containerClass="flex flex-row-reverse desktop:flex-row items-center w-full desktop:p-0 rounded relative border-b desktop:border-b-0",
   } = props;
+  console.log(itemClass, "itemClass");
   const [showSearchBox, setShowSearchBox] = useState(false);
   const [resultSearch, setResultSearch] = useState<Item[]>(items);
   const [localStorageHistory, setLocalStorageHistory] = useState<Item[]>([]);
@@ -139,7 +140,7 @@ export const InputSearch: FC<Props> = (props) => {
   return (
     <>
       <div
-        className={`flex flex-row-reverse desktop:flex-row items-center w-full desktop:p-0 rounded relative border-b desktop:border-b-0 ${containerClass}`}
+        className={containerClass}
       >
         <MainInput
           loading={loading}
@@ -159,6 +160,7 @@ export const InputSearch: FC<Props> = (props) => {
             {form.name != "" && (
               <ResultSearch
                 form={form}
+                itemClass={itemClass}
                 resultSearch={resultSearch}
                 loading={loading}
                 handelClickOnItem={handelSaveSearchInLocalStorage}
@@ -215,9 +217,7 @@ function MainInput(props: {
         name="name"
         autoComplete="off"
         placeholder={props.placeholder}
-        className={`w-full py-2 px-1 outline-none rounded border border-cyan-700 cursor-pointer ${
-          props.showSearchBox ? "bg-white desktop:border" : "bg-stone-100"
-        } ${props.inputClass}`}
+        className={props.inputClass}
         onClick={props.handelShowSearchBox}
         value={props.form.name}
         onChange={(event: ChangeEvent<HTMLInputElement>) =>
@@ -230,6 +230,7 @@ function MainInput(props: {
 
 function ResultSearch(props: {
   form: Omit<Item, "value">;
+  itemClass?: string;
   resultSearch: Item[];
   loading: boolean;
   handelClickOnItem: (item: Item) => void;
@@ -254,6 +255,7 @@ function ResultSearch(props: {
             <ItemSection
               item={item}
               key={index}
+              itemClass={props.itemClass}
               handelClickOnItem={props.handelClickOnItem}
             />
           );
@@ -269,8 +271,9 @@ function ItemSection(props: {
 }) {
   return (
     <>
+    {/* py-2 px-2  last:border-0 cursor-pointer hover:bg-slate-200 hover:rounded text-sm text-stone-600 */}
       <div
-        className={`flex justify-between items-center py-2 px-2  last:border-0 cursor-pointer hover:bg-slate-200 hover:rounded text-sm text-stone-600 ${props.itemClass}`}
+        className={` flex justify-between items-center  ${props.itemClass}`}
         onClick={() => props.handelClickOnItem(props.item)}
       >
         {props.item.name}
@@ -309,7 +312,7 @@ function History(props: {
             return (
               <div key={index} onClick={() => props.handelClickOnItem(item)}>
                 <div
-                  className={`flex justify-between items-center py-1 px-2 border-b last:border-0 hover:bg-slate-200 cursor-pointer bg-slate-100 text-sm text-stone-600 ${props.itemClass}`}
+                  className={`flex justify-between items-center  ${props.itemClass}`}
                 >
                   {item.name}
                   <div
