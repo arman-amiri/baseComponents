@@ -41,6 +41,7 @@ export default function Home() {
       <section className="flex flex-auto justify-center items-center bg-gray-100 min-h-screen">
         <div className="w-96">
           <InputSearch
+            uniqeKey="gg"
             items={items}
             selected={{
               value: "66ae33ddf49896b24e177430",

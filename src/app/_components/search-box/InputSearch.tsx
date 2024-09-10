@@ -6,6 +6,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { ChangeEvent, FC, useEffect, useRef, useState } from "react";
 
 interface Props {
+  uniqeKey: string;
   items: Item[];
   selected?: Item;
   loading: boolean;
@@ -30,6 +31,7 @@ export const InputSearch: FC<Props> = (props) => {
     placeholder,
     showItemCount = 5,
     items,
+    uniqeKey="#5f@6",
     debounceTime = 350,
     itemClass,
     inputClass,
@@ -78,7 +80,8 @@ export const InputSearch: FC<Props> = (props) => {
   }, [items, showItemCount]);
 
   const handelFirstContentSearch = () => {
-    const searchHistory: string = localStorage.getItem("searchHistory") || "";
+    const searchHistory: string =
+      localStorage.getItem(`searchHistoryAutoComplete-${uniqeKey}`) || "";
     const x = JSON.parse(searchHistory).slice(0, showItemCount);
     setLocalStorageHistory(x);
   };
@@ -90,20 +93,20 @@ export const InputSearch: FC<Props> = (props) => {
       name: item.name,
     });
 
-    let searchHistory: string = localStorage.getItem("searchHistory") || "";
+    let searchHistory: string = localStorage.getItem(`searchHistoryAutoComplete-${uniqeKey}`) || "";
     if (!searchHistory) {
-      localStorage.setItem("searchHistory", JSON.stringify([item]));
+      localStorage.setItem(`searchHistoryAutoComplete-${uniqeKey}`, JSON.stringify([item]));
     } else {
       const x: Item[] = JSON.parse(searchHistory);
       var index = x.findIndex((i: Item) => i.name == item.name);
 
       if (index == -1) {
         x.unshift(item);
-        localStorage.setItem("searchHistory", JSON.stringify(x));
+        localStorage.setItem(`searchHistoryAutoComplete-${uniqeKey}`, JSON.stringify(x));
       } else {
         x.splice(index, 1);
         x.unshift(item);
-        localStorage.setItem("searchHistory", JSON.stringify(x));
+        localStorage.setItem(`searchHistoryAutoComplete-${uniqeKey}`, JSON.stringify(x));
       }
     }
   };
@@ -129,11 +132,11 @@ export const InputSearch: FC<Props> = (props) => {
     e.stopPropagation();
     e.preventDefault();
 
-    let searchHistory: string = localStorage.getItem("searchHistory") || "";
+    let searchHistory: string = localStorage.getItem(`searchHistoryAutoComplete-${uniqeKey}`) || "";
     const x: Item[] = JSON.parse(searchHistory);
     x.splice(index, 1);
     setLocalStorageHistory([...x]);
-    localStorage.setItem("searchHistory", JSON.stringify(x));
+    localStorage.setItem(`searchHistoryAutoComplete-${uniqeKey}`, JSON.stringify(x));
   };
 
   return (
