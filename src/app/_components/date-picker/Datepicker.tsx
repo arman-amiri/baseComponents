@@ -5,14 +5,15 @@ import MultiDatePicker from "react-multi-date-picker";
 const jalaali = require("jalaali-js");
 import "react-multi-date-picker/styles/layouts/mobile.css";
 
-interface DatePicker { 
+interface DatePicker {
   oldDate: string | undefined;
   placeholder: string;
-  onSelectDate: (date: any) => void;
+  isShamsi: boolean;
+  onSelectDate: (date: string) => void;
 }
 
 const DatePicker: FC<DatePicker> = (props) => {
-  const { placeholder , oldDate } = props;
+  const { placeholder, oldDate, isShamsi } = props;
   const [value, setValue] = useState<any>();
 
   const oldDateMemo = useMemo(() => {
@@ -20,26 +21,39 @@ const DatePicker: FC<DatePicker> = (props) => {
   }, [oldDate]);
 
   const onChange = (time: any) => {
-    const { gy, gm, gd } = jalaali.toGregorian(
-      time.year,
-      time.month.number,
-      time.day
-    );
-    props.onSelectDate(`${gy}/${gm}/${gd}`);
+    if (isShamsi) {
+      const month = time.month.number.toString();
+      const day = time.day.toString();
+      const m = month.length === 1 ? `0${month}` : `${month}`;
+      const d = day.length === 1 ? `0${day}` : `${day}`;
+      props.onSelectDate(`${time.year}${m}${d}`);
+    } else {
+      const { gy, gm, gd } = jalaali.toGregorian(
+        time.year,
+        time.month.number,
+        time.day
+      );
+      props.onSelectDate(`${gy}/${gm}/${gd}`);
+    }
   };
 
   useEffect(() => {
-    if (oldDateMemo) {
-      const { jy, jm, jd } = jalaali.toJalaali(new Date(oldDateMemo)); 
+    if (oldDateMemo && !isShamsi) {
+      const { jy, jm, jd } = jalaali.toJalaali(new Date(oldDateMemo));
       setValue(`${jy}/${jm}/${jd}`);
+    } else {
+      setValue(
+        `${oldDateMemo?.slice(0, 4)}/${oldDateMemo?.slice(4, 6)}/${oldDateMemo?.slice(6, 8)}`
+      );
     }
-  }, [oldDateMemo]);
+  }, [oldDateMemo, isShamsi]);
 
   return (
     <>
       <MultiDatePicker
         // hideOnScroll
         value={value}
+        format="YYYY/MM/DD"
         calendar={persian}
         locale={persian_fa}
         highlightToday={true}
@@ -58,7 +72,6 @@ const DatePicker: FC<DatePicker> = (props) => {
           },
         ]}
       />
-
     </>
   );
 };
