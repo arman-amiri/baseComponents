@@ -32,10 +32,9 @@ export const InputSearch: FC<Props> = (props) => {
     items,
     debounceTime = 350,
     itemClass = "py-1 px-2 hover:bg-slate-200 cursor-pointer text-sm text-stone-600",
-    inputClass="w-full py-2 px-1 outline-none rounded border border-cyan-700 cursor-pointer",
-    containerClass="flex flex-row-reverse desktop:flex-row items-center w-full desktop:p-0 rounded relative border-b desktop:border-b-0",
+    inputClass = "w-full py-2 px-1 outline-none rounded border border-cyan-700 cursor-pointer",
+    containerClass = "flex flex-row-reverse desktop:flex-row items-center w-full desktop:p-0 rounded relative border-b desktop:border-b-0",
   } = props;
-  console.log(itemClass, "itemClass");
   const [showSearchBox, setShowSearchBox] = useState(false);
   const [resultSearch, setResultSearch] = useState<Item[]>(items);
   const [localStorageHistory, setLocalStorageHistory] = useState<Item[]>([]);
@@ -129,7 +128,7 @@ export const InputSearch: FC<Props> = (props) => {
   ) => {
     e.stopPropagation();
     e.preventDefault();
-
+    console.log(e, "e");
     let searchHistory: string = localStorage.getItem("searchHistory") || "";
     const x: Item[] = JSON.parse(searchHistory);
     x.splice(index, 1);
@@ -139,9 +138,7 @@ export const InputSearch: FC<Props> = (props) => {
 
   return (
     <>
-      <div
-        className={containerClass}
-      >
+      <div className={containerClass}>
         <MainInput
           loading={loading}
           form={form}
@@ -155,7 +152,7 @@ export const InputSearch: FC<Props> = (props) => {
         {showSearchBox && (
           <div
             id="searchBox"
-            className="desktop:w-full bg-white absolute left-0 right-0 top-12 desktop:top-10 z-50 border max-h-80 overflow-y-scroll p-0 transition-all"
+            className="desktop:w-full bg-white absolute left-0 right-0 top-12 desktop:top-10 z-50 border max-h-80 overflow-auto p-0 transition-all"
           >
             {form.name != "" && (
               <ResultSearch
@@ -172,8 +169,8 @@ export const InputSearch: FC<Props> = (props) => {
               form={form}
               itemClass={itemClass}
               handelClickOnItem={handelSaveSearchInLocalStorage}
-              removeOldSearchFromLocalStorage={() =>
-                removeOldSearchFromLocalStorage
+              removeOldSearchFromLocalStorage={(event, index) =>
+                removeOldSearchFromLocalStorage(event, index)
               }
             />
 
@@ -271,7 +268,7 @@ function ItemSection(props: {
 }) {
   return (
     <>
-    {/* py-2 px-2  last:border-0 cursor-pointer hover:bg-slate-200 hover:rounded text-sm text-stone-600 */}
+      {/* py-2 px-2  last:border-0 cursor-pointer hover:bg-slate-200 hover:rounded text-sm text-stone-600 */}
       <div
         className={` flex justify-between items-center  ${props.itemClass}`}
         onClick={() => props.handelClickOnItem(props.item)}
@@ -301,7 +298,7 @@ function History(props: {
   handelClickOnItem: (item: Item) => void;
   removeOldSearchFromLocalStorage: (
     event: React.MouseEvent<HTMLDivElement>,
-    index: Number
+    index: number
   ) => void;
 }) {
   if (!!!props.form.name && !!props.localStorageHistory?.length)
