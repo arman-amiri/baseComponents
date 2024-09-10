@@ -9,11 +9,14 @@ interface DatePicker {
   oldDate: string | undefined;
   placeholder: string;
   isShamsi: boolean;
+  containerClassName?: string;
+  inputClass?: string;
   onSelectDate: (date: string) => void;
 }
 
 const DatePicker: FC<DatePicker> = (props) => {
-  const { placeholder, oldDate, isShamsi } = props;
+  const { placeholder, oldDate, isShamsi, containerClassName, inputClass } =
+    props;
   const [value, setValue] = useState<any>();
 
   const oldDateMemo = useMemo(() => {
@@ -50,6 +53,7 @@ const DatePicker: FC<DatePicker> = (props) => {
 
   return (
     <>
+      {/* rmdp-mobile */}
       <MultiDatePicker
         // hideOnScroll
         value={value}
@@ -59,9 +63,9 @@ const DatePicker: FC<DatePicker> = (props) => {
         highlightToday={true}
         showOtherDays={false}
         placeholder={placeholder}
-        // className="rmdp-mobile"
         buttons={false}
-        inputClass="py-2 px-4 border border-gray  cursor-pointer rounded"
+        containerClassName={containerClassName}
+        inputClass={`py-2 px-4 border border-gray cursor-pointer rounded ${inputClass}`}
         onChange={onChange}
         mobileButtons={[
           {
