@@ -31,15 +31,15 @@ export const InputSearch: FC<Props> = (props) => {
     showItemCount = 5,
     items,
     debounceTime = 350,
-    itemClass = "py-1 px-2 hover:bg-slate-200 cursor-pointer text-sm text-stone-600",
-    inputClass = "w-full py-2 px-1 outline-none rounded border border-cyan-700 cursor-pointer",
-    containerClass = "flex flex-row-reverse desktop:flex-row items-center w-full desktop:p-0 rounded relative border-b desktop:border-b-0",
+    itemClass,
+    inputClass,
+    containerClass,
   } = props;
   const [showSearchBox, setShowSearchBox] = useState(false);
   const [resultSearch, setResultSearch] = useState<Item[]>(items);
   const [localStorageHistory, setLocalStorageHistory] = useState<Item[]>([]);
   const debouncedSearch = useRef(
-    debounce(async (value) => {
+    debounce(async (value: string) => {
       props.onChange!(value);
     }, debounceTime)
   ).current;
@@ -128,7 +128,7 @@ export const InputSearch: FC<Props> = (props) => {
   ) => {
     e.stopPropagation();
     e.preventDefault();
-    console.log(e, "e");
+
     let searchHistory: string = localStorage.getItem("searchHistory") || "";
     const x: Item[] = JSON.parse(searchHistory);
     x.splice(index, 1);
@@ -138,11 +138,13 @@ export const InputSearch: FC<Props> = (props) => {
 
   return (
     <>
-      <div className={containerClass}>
+      <div
+        className={`flex flex-row-reverse items-center w-full  rounded relative border-b  ${containerClass}`}
+      >
         <MainInput
           loading={loading}
           form={form}
-          inputClass={inputClass}
+          inputClass={`w-full py-2 px-1 outline-none rounded  cursor-pointer ${inputClass}`}
           placeholder={placeholder}
           showSearchBox={showSearchBox}
           handelShowSearchBox={handelShowSearchBox}
@@ -152,7 +154,7 @@ export const InputSearch: FC<Props> = (props) => {
         {showSearchBox && (
           <div
             id="searchBox"
-            className="desktop:w-full bg-white absolute left-0 right-0 top-12 desktop:top-10 z-50 border max-h-80 overflow-auto p-0 transition-all"
+            className="bg-white absolute left-0 right-0 top-8 rounded-b-md  shadow-md z-30  max-h-80 overflow-auto transition-all "
           >
             {form.name != "" && (
               <ResultSearch
@@ -270,7 +272,7 @@ function ItemSection(props: {
     <>
       {/* py-2 px-2  last:border-0 cursor-pointer hover:bg-slate-200 hover:rounded text-sm text-stone-600 */}
       <div
-        className={` flex justify-between items-center  ${props.itemClass}`}
+        className={` flex justify-between items-center py-1 px-1 hover:bg-slate-200 cursor-pointer  text-stone-600 ${props.itemClass}`}
         onClick={() => props.handelClickOnItem(props.item)}
       >
         {props.item.name}
@@ -304,30 +306,28 @@ function History(props: {
   if (!!!props.form.name && !!props.localStorageHistory?.length)
     return (
       <>
-        <div className="p-1">
-          {props.localStorageHistory.map((item: Item, index: number) => {
-            return (
-              <div key={index} onClick={() => props.handelClickOnItem(item)}>
-                <div
-                  className={`flex justify-between items-center  ${props.itemClass}`}
-                >
-                  {item.name}
-                  <div
-                    id="removeOldSearch"
-                    className="flex gap-1 text-stone-600 text-xs p-2"
-                    onClick={(event) =>
-                      props.removeOldSearchFromLocalStorage(event, index)
-                    }
-                  >
-                    <span id="removeOldSearch">
-                      <IoMdClose className="cursor-pointer hover:text-red-600" />
-                    </span>
-                  </div>
-                </div>
+        {props.localStorageHistory.map((item: Item, index: number) => {
+          return (
+            <div
+              key={index}
+              onClick={() => props.handelClickOnItem(item)}
+              className={` flex justify-between items-center hover:bg-slate-200 cursor-pointer text-xs text-stone-600 p-1  ${props.itemClass}`}
+            >
+              {item.name}
+              <div
+                id="removeOldSearch"
+                className="flex gap-1 text-stone-600 text-xs p-2"
+                onClick={(event) =>
+                  props.removeOldSearchFromLocalStorage(event, index)
+                }
+              >
+                <span id="removeOldSearch">
+                  <IoMdClose className="cursor-pointer hover:text-red-600" />
+                </span>
               </div>
-            );
-          })}
-        </div>
+            </div>
+          );
+        })}
       </>
     );
 }
